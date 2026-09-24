@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NovaMarket · Compras por WhatsApp</title>
+  <title>NovaMarket · Tienda digital</title>
 
   <style>
     * {
@@ -19,10 +19,11 @@
     }
 
     header {
-      padding: 20px;
+      padding: 18px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
       border-bottom: 1px solid #252b3d;
     }
 
@@ -35,12 +36,34 @@
       color: #6c63ff;
     }
 
-    .badge {
-      background: #151b2b;
-      padding: 8px 14px;
-      border-radius: 20px;
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .user {
       color: #aab3c8;
       font-size: 13px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbtn {
+      border: 1px solid #293146;
+      background: #111726;
+      color: white;
+      border-radius: 10px;
+      padding: 10px 13px;
+    }
+
+    .topbtn.primary {
+      background: #6c63ff;
+      border-color: #6c63ff;
     }
 
     .container {
@@ -50,7 +73,7 @@
     }
 
     .hero {
-      padding: 60px 0 40px;
+      padding: 45px 0 35px;
     }
 
     .hero small {
@@ -88,6 +111,10 @@
     }
 
     input {
+      width: 100%;
+    }
+
+    .search {
       flex: 1;
       min-width: 220px;
     }
@@ -146,7 +173,8 @@
       margin: 18px 0;
     }
 
-    .buy {
+    .buy,
+    .confirm {
       width: 100%;
       border: none;
       border-radius: 11px;
@@ -154,11 +182,6 @@
       background: linear-gradient(90deg, #6c63ff, #8b5cf6);
       color: white;
       font-weight: bold;
-      cursor: pointer;
-    }
-
-    .buy:hover {
-      opacity: .9;
     }
 
     footer {
@@ -171,10 +194,11 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.75);
+      background: rgba(0, 0, 0, .78);
       align-items: center;
       justify-content: center;
       padding: 20px;
+      z-index: 10;
     }
 
     .modal.active {
@@ -183,7 +207,7 @@
 
     .modal-box {
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       background: #111726;
       border: 1px solid #293146;
       border-radius: 18px;
@@ -196,22 +220,39 @@
       background: none;
       color: #aaa;
       font-size: 25px;
-      cursor: pointer;
     }
 
     .modal-box input {
-      width: 100%;
-      margin: 15px 0;
+      margin: 7px 0;
     }
 
-    .confirm {
-      width: 100%;
-      padding: 13px;
+    .secondary {
+      background: #20283b;
       border: none;
+      color: white;
+      width: 100%;
+      padding: 12px;
       border-radius: 10px;
-      background: #34d399;
-      font-weight: bold;
-      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .msg {
+      font-size: 13px;
+      color: #9ba5ba;
+      margin: 10px 0;
+      line-height: 1.5;
+    }
+
+    .error {
+      color: #fca5a5;
+    }
+
+    .ok {
+      color: #86efac;
+    }
+
+    .hidden {
+      display: none;
     }
 
     @media (max-width: 800px) {
@@ -231,43 +272,98 @@
 <body>
 
 <header>
-  <div class="logo">Nova<span>Market</span></div>
-  <div class="badge">🔒 Tienda digital</div>
+
+  <div class="logo">
+    Nova<span>Market</span>
+  </div>
+
+  <div class="actions">
+
+    <span id="userLabel" class="user">
+      No has iniciado sesión
+    </span>
+
+    <button id="loginBtn" class="topbtn">
+      Iniciar sesión
+    </button>
+
+    <button id="registerBtn" class="topbtn primary">
+      Crear cuenta
+    </button>
+
+    <button id="logoutBtn" class="topbtn hidden">
+      Cerrar sesión
+    </button>
+
+  </div>
+
 </header>
+
 
 <div class="container">
 
   <section class="hero">
+
     <small>Marketplace digital</small>
-    <h1>Servicios digitales.</h1>
+
+    <h1>
+      Servicios digitales.
+    </h1>
+
     <p>
-      Compra servicios digitales y números virtuales
+      Compra productos y servicios digitales autorizados
       desde una interfaz sencilla y moderna.
     </p>
+
   </section>
 
+
   <div class="tools">
+
     <input
+      class="search"
       id="search"
       type="text"
       placeholder="Buscar producto..."
     >
 
     <select id="category">
-      <option value="all">Todas las categorías</option>
-      <option value="numbers">Números</option>
-      <option value="sms">SMS</option>
-      <option value="digital">Digital</option>
+
+      <option value="all">
+        Todas las categorías
+      </option>
+
+      <option value="digital">
+        Digital
+      </option>
+
+      <option value="software">
+        Software
+      </option>
+
+      <option value="otros">
+        Otros
+      </option>
+
     </select>
+
   </div>
+
 
   <div class="notice">
-    ℹ️ Los productos de esta página son demostrativos.
-    Para vender productos reales debes conectar proveedores
-    autorizados y un sistema de pagos.
+
+    ℹ️ Los productos mostrados son demostrativos.
+    Para vender productos reales utiliza proveedores autorizados
+    y un sistema de pagos apropiado.
+
   </div>
 
-  <section id="products" class="products"></section>
+
+  <section
+    id="products"
+    class="products">
+  </section>
+
 
   <footer>
     © 2026 NovaMarket · Términos · Privacidad · Soporte
@@ -275,129 +371,282 @@
 
 </div>
 
-<!-- Ventana de compra -->
 
-<div id="modal" class="modal">
+<!-- REGISTRO / INICIO DE SESIÓN -->
+
+<div
+  id="authModal"
+  class="modal">
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal()">×</button>
+    <button
+      class="close"
+      id="closeAuth">
+      ×
+    </button>
 
-    <h2 id="productName">Comprar</h2>
+    <h2 id="authTitle">
+      Crear cuenta
+    </h2>
 
-    <p id="productPrice"></p>
-
-    <p style="color:#9ba5ba; margin:15px 0; line-height:1.5;">
-      Pago por saldo en pesos cubanos (CUP). Al continuar se abrirá WhatsApp
-      para coordinar la compra.
+    <p
+      id="authMessage"
+      class="msg">
     </p>
 
-    <button class="confirm" onclick="purchase()">
-      Comprar por WhatsApp
+
+    <div id="registerFields">
+
+      <input
+        id="name"
+        placeholder="Nombre">
+
+      <input
+        id="username"
+        placeholder="Nombre de usuario">
+
+      <input
+        id="phone"
+        placeholder="Teléfono">
+
+    </div>
+
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Correo electrónico">
+
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Contraseña">
+
+
+    <button
+      id="authSubmit"
+      class="confirm">
+
+      Crear cuenta
+
+    </button>
+
+
+    <button
+      id="googleBtn"
+      class="secondary">
+
+      🔵 Continuar con Google
+
+    </button>
+
+
+    <button
+      id="switchAuth"
+      class="secondary">
+
+      Ya tengo una cuenta
+
     </button>
 
   </div>
 
 </div>
 
-<script>
+
+<script type="module">
+
+/* =========================
+   FIREBASE
+========================= */
+
+import {
+  initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendEmailVerification,
+  updateProfile,
+  onAuthStateChanged,
+  signOut
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+import {
+  getFirestore,
+  doc,
+  setDoc
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+/* TU CONFIGURACIÓN DE FIREBASE */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyA6HgG1Ra0Idn8upAKG2LFLLzpGxlAiiic",
+
+  authDomain:
+    "novastore-cd6ef.firebaseapp.com",
+
+  projectId:
+    "novastore-cd6ef",
+
+  storageBucket:
+    "novastore-cd6ef.firebasestorage.app",
+
+  messagingSenderId:
+    "892220755131",
+
+  appId:
+    "1:892220755131:web:bcd663595d11ce35ed6d9e",
+
+  measurementId:
+    "G-LKR2QEST42"
+
+};
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+
+const auth =
+  getAuth(app);
+
+
+const db =
+  getFirestore(app);
+
+
+const googleProvider =
+  new GoogleAuthProvider();
+
+
+/* =========================
+   PRODUCTOS
+========================= */
 
 const products = [
 
   {
-    name: "Número virtual +1",
-    category: "numbers",
-    icon: "🇺🇸",
+    name: "Plantilla digital",
+    category: "digital",
+    icon: "✨",
+    price: "150 CUP",
+    description:
+      "Plantilla digital para uso autorizado."
+  },
+
+  {
+    name: "Paquete de recursos",
+    category: "digital",
+    icon: "📦",
     price: "250 CUP",
     description:
-      "Número virtual para servicios compatibles."
+      "Recursos digitales para proyectos."
   },
 
   {
-    name: "Número virtual +44",
-    category: "numbers",
-    icon: "🇬🇧",
-    price: "200 CUP",
+    name: "Software autorizado",
+    category: "software",
+    icon: "💻",
+    price: "400 CUP",
     description:
-      "Número virtual del Reino Unido."
+      "Producto de software con licencia correspondiente."
   },
 
   {
-    name: "Número virtual +34",
-    category: "numbers",
-    icon: "🇪🇸",
-    price: "200 CUP",
-    description:
-      "Número virtual de España."
-  },
-
-  {
-    name: "SMS temporal",
-    category: "sms",
-    icon: "💬",
-    price: "100 CUP",
-    description:
-      "Recepción temporal de SMS."
-  },
-
-  {
-    name: "Paquete SMS x5",
-    category: "sms",
-    icon: "📩",
+    name: "Diseño digital",
+    category: "otros",
+    icon: "🎨",
     price: "300 CUP",
     description:
-      "Cinco recepciones SMS."
+      "Servicio de diseño digital."
+  },
+
+  {
+    name: "Pack de iconos",
+    category: "digital",
+    icon: "🧩",
+    price: "200 CUP",
+    description:
+      "Colección de iconos para proyectos."
   },
 
   {
     name: "Servicio digital",
-    category: "digital",
-    icon: "✨",
+    category: "otros",
+    icon: "⚡",
     price: "400 CUP",
     description:
-      "Producto digital autorizado."
+      "Servicio digital autorizado."
   }
 
 ];
 
-let selectedProduct = null;
+
+let registerMode = true;
+
+
+/* =========================
+   FUNCIONES
+========================= */
+
+const $ =
+  id => document.getElementById(id);
+
 
 function renderProducts() {
 
   const search =
-    document
-      .getElementById("search")
+    $("search")
       .value
       .toLowerCase();
 
+
   const category =
-    document
-      .getElementById("category")
+    $("category")
       .value;
 
-  const container =
-    document.getElementById("products");
 
-  container.innerHTML = "";
+  $("products").innerHTML =
 
-  products
-    .filter(product => {
+    products
 
-      const matchesSearch =
-        product.name
-          .toLowerCase()
-          .includes(search);
+      .filter(product => {
 
-      const matchesCategory =
-        category === "all" ||
-        product.category === category;
+        const matchesSearch =
+          product.name
+            .toLowerCase()
+            .includes(search);
 
-      return matchesSearch && matchesCategory;
 
-    })
-    .forEach((product, index) => {
+        const matchesCategory =
+          category === "all" ||
+          product.category === category;
 
-      container.innerHTML += `
+
+        return (
+          matchesSearch &&
+          matchesCategory
+        );
+
+      })
+
+
+      .map((product, index) => `
 
         <article class="card">
 
@@ -423,79 +672,470 @@ function renderProducts() {
 
           <button
             class="buy"
-            onclick="openModal(${index})"
-          >
+            data-index="${index}">
+
             Comprar
+
           </button>
 
         </article>
 
-      `;
+      `)
+
+      .join("");
+
+
+  document
+    .querySelectorAll(".buy")
+    .forEach(button => {
+
+      button.onclick = () => {
+
+        const product =
+          products[
+            Number(button.dataset.index)
+          ];
+
+
+        if (!auth.currentUser) {
+
+          openAuth(false);
+
+          return;
+
+        }
+
+
+        alert(
+          "Has seleccionado: " +
+          product.name
+        );
+
+      };
 
     });
 
 }
 
-function openModal(index) {
 
-  selectedProduct = products[index];
+/* =========================
+   AUTENTICACIÓN
+========================= */
 
-  document.getElementById(
-    "productName"
-  ).textContent =
-    selectedProduct.name;
+function openAuth(register = true) {
 
-  document.getElementById(
-    "productPrice"
-  ).textContent =
-    selectedProduct.price;
+  registerMode =
+    register;
 
-  document
-    .getElementById("modal")
-    .classList.add("active");
+
+  $("authTitle")
+    .textContent =
+      register
+        ? "Crear cuenta"
+        : "Iniciar sesión";
+
+
+  $("authSubmit")
+    .textContent =
+      register
+        ? "Crear cuenta"
+        : "Iniciar sesión";
+
+
+  $("registerFields")
+    .classList
+    .toggle(
+      "hidden",
+      !register
+    );
+
+
+  $("switchAuth")
+    .textContent =
+      register
+        ? "Ya tengo una cuenta"
+        : "Crear una cuenta";
+
+
+  $("authMessage")
+    .textContent = "";
+
+
+  $("authModal")
+    .classList
+    .add("active");
 
 }
 
-function closeModal() {
 
-  document
-    .getElementById("modal")
-    .classList.remove("active");
+function closeAuth() {
 
-}
-
-function purchase() {
-
-  if (!selectedProduct) return;
-
-  const phone = "5350039261";
-
-  const message =
-    "Hola, quiero comprar:%0A%0A" +
-    "Producto: " + encodeURIComponent(selectedProduct.name) + "%0A" +
-    "Precio: " + encodeURIComponent(selectedProduct.price) + "%0A" +
-    "Forma de pago: saldo en CUP";
-
-  const whatsappUrl =
-    "https://wa.me/" + phone + "?text=" + message;
-
-  window.location.href = whatsappUrl;
+  $("authModal")
+    .classList
+    .remove("active");
 
 }
 
-document
-  .getElementById("search")
+
+$("registerBtn")
+  .onclick =
+    () => openAuth(true);
+
+
+$("loginBtn")
+  .onclick =
+    () => openAuth(false);
+
+
+$("closeAuth")
+  .onclick =
+    closeAuth;
+
+
+$("switchAuth")
+  .onclick =
+    () => openAuth(!registerMode);
+
+
+/* =========================
+   CREAR / INICIAR SESIÓN
+========================= */
+
+$("authSubmit")
+  .onclick = async () => {
+
+    const email =
+      $("email")
+        .value
+        .trim();
+
+
+    const password =
+      $("password")
+        .value;
+
+
+    $("authMessage")
+      .textContent = "";
+
+
+    try {
+
+      if (registerMode) {
+
+        const name =
+          $("name")
+            .value
+            .trim();
+
+
+        const username =
+          $("username")
+            .value
+            .trim();
+
+
+        const phone =
+          $("phone")
+            .value
+            .trim();
+
+
+        if (
+          !name ||
+          !username ||
+          !phone ||
+          !email ||
+          !password
+        ) {
+
+          $("authMessage")
+            .textContent =
+              "Completa todos los campos.";
+
+          $("authMessage")
+            .className =
+              "msg error";
+
+          return;
+
+        }
+
+
+        const result =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+        await updateProfile(
+          result.user,
+          {
+            displayName: name
+          }
+        );
+
+
+        await setDoc(
+          doc(
+            db,
+            "users",
+            result.user.uid
+          ),
+          {
+
+            name:
+              name,
+
+            username:
+              username,
+
+            phone:
+              phone,
+
+            email:
+              email,
+
+            createdAt:
+              new Date()
+                .toISOString()
+
+          }
+        );
+
+
+        await sendEmailVerification(
+          result.user
+        );
+
+
+        $("authMessage")
+          .textContent =
+            "Cuenta creada. Revisa tu correo para verificarla.";
+
+        $("authMessage")
+          .className =
+            "msg ok";
+
+
+      } else {
+
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+
+        closeAuth();
+
+      }
+
+
+    } catch (error) {
+
+      $("authMessage")
+        .textContent =
+          friendlyError(
+            error.code
+          );
+
+      $("authMessage")
+        .className =
+          "msg error";
+
+    }
+
+  };
+
+
+/* =========================
+   GOOGLE
+========================= */
+
+$("googleBtn")
+  .onclick = async () => {
+
+    try {
+
+      const result =
+        await signInWithPopup(
+          auth,
+          googleProvider
+        );
+
+
+      await setDoc(
+        doc(
+          db,
+          "users",
+          result.user.uid
+        ),
+        {
+
+          name:
+            result.user.displayName || "",
+
+          email:
+            result.user.email || "",
+
+          updatedAt:
+            new Date()
+              .toISOString()
+
+        },
+
+        {
+          merge: true
+        }
+      );
+
+
+      closeAuth();
+
+
+    } catch (error) {
+
+      $("authMessage")
+        .textContent =
+          friendlyError(
+            error.code
+          );
+
+      $("authMessage")
+        .className =
+          "msg error";
+
+    }
+
+  };
+
+
+/* =========================
+   CERRAR SESIÓN
+========================= */
+
+$("logoutBtn")
+  .onclick =
+    () => signOut(auth);
+
+
+/* =========================
+   ESTADO DEL USUARIO
+========================= */
+
+onAuthStateChanged(
+  auth,
+  user => {
+
+    if (user) {
+
+      $("userLabel")
+        .textContent =
+          "Hola, " +
+          (
+            user.displayName ||
+            user.email
+          );
+
+
+      $("loginBtn")
+        .classList
+        .add("hidden");
+
+
+      $("registerBtn")
+        .classList
+        .add("hidden");
+
+
+      $("logoutBtn")
+        .classList
+        .remove("hidden");
+
+
+    } else {
+
+      $("userLabel")
+        .textContent =
+          "No has iniciado sesión";
+
+
+      $("loginBtn")
+        .classList
+        .remove("hidden");
+
+
+      $("registerBtn")
+        .classList
+        .remove("hidden");
+
+
+      $("logoutBtn")
+        .classList
+        .add("hidden");
+
+    }
+
+  });
+
+
+/* =========================
+   ERRORES
+========================= */
+
+function friendlyError(code) {
+
+  const errors = {
+
+    "auth/email-already-in-use":
+      "Ese correo ya está registrado.",
+
+    "auth/invalid-email":
+      "El correo no es válido.",
+
+    "auth/weak-password":
+      "La contraseña debe tener al menos 6 caracteres.",
+
+    "auth/invalid-credential":
+      "Correo o contraseña incorrectos.",
+
+    "auth/popup-closed-by-user":
+      "Se cerró la ventana de Google.",
+
+    "auth/popup-blocked":
+      "El navegador bloqueó la ventana de Google."
+
+  };
+
+
+  return (
+    errors[code] ||
+    "No se pudo completar la operación."
+  );
+
+}
+
+
+/* =========================
+   BUSCADOR
+========================= */
+
+$("search")
   .addEventListener(
     "input",
     renderProducts
   );
 
-document
-  .getElementById("category")
+
+$("category")
   .addEventListener(
     "change",
     renderProducts
   );
+
 
 renderProducts();
 
