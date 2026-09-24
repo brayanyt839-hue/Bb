@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaMarket · Compras por WhatsApp</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #080b14;
+      color: white;
+    }
+
+    header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #252b3d;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #6c63ff;
+    }
+
+    .badge {
+      background: #151b2b;
+      padding: 8px 14px;
+      border-radius: 20px;
+      color: #aab3c8;
+      font-size: 13px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    .hero {
+      padding: 60px 0 40px;
+    }
+
+    .hero small {
+      color: #22d3ee;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 8vw, 72px);
+      margin: 15px 0;
+    }
+
+    .hero p {
+      color: #9ba5ba;
+      font-size: 18px;
+      max-width: 650px;
+      line-height: 1.6;
+    }
+
+    .tools {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    input,
+    select {
+      background: #111726;
+      color: white;
+      border: 1px solid #293146;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .notice {
+      background: #102226;
+      border: 1px solid #245052;
+      color: #bce8e5;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: #111726;
+      border: 1px solid #272f43;
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .icon {
+      font-size: 32px;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      background: #29264f;
+      color: #c2c0ff;
+      font-size: 11px;
+    }
+
+    .card h3 {
+      margin: 13px 0 8px;
+    }
+
+    .description {
+      color: #98a2b8;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 45px;
+    }
+
+    .price {
+      font-size: 26px;
+      font-weight: bold;
+      margin: 18px 0;
+    }
+
+    .buy {
+      width: 100%;
+      border: none;
+      border-radius: 11px;
+      padding: 13px;
+      background: linear-gradient(90deg, #6c63ff, #8b5cf6);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .buy:hover {
+      opacity: .9;
+    }
+
+    footer {
+      text-align: center;
+      color: #68738a;
+      padding: 50px 0 20px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.75);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 420px;
+      background: #111726;
+      border: 1px solid #293146;
+      border-radius: 18px;
+      padding: 25px;
+    }
+
+    .close {
+      float: right;
+      border: none;
+      background: none;
+      color: #aaa;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .modal-box input {
+      width: 100%;
+      margin: 15px 0;
+    }
+
+    .confirm {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #34d399;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media (max-width: 800px) {
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 550px) {
+      .products {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Nova<span>Market</span></div>
+  <div class="badge">🔒 Tienda digital</div>
+</header>
+
+<div class="container">
+
+  <section class="hero">
+    <small>Marketplace digital</small>
+    <h1>Servicios digitales.</h1>
+    <p>
+      Compra servicios digitales y números virtuales
+      desde una interfaz sencilla y moderna.
+    </p>
+  </section>
+
+  <div class="tools">
+    <input
+      id="search"
+      type="text"
+      placeholder="Buscar producto..."
+    >
+
+    <select id="category">
+      <option value="all">Todas las categorías</option>
+      <option value="numbers">Números</option>
+      <option value="sms">SMS</option>
+      <option value="digital">Digital</option>
+    </select>
+  </div>
+
+  <div class="notice">
+    ℹ️ Los productos de esta página son demostrativos.
+    Para vender productos reales debes conectar proveedores
+    autorizados y un sistema de pagos.
+  </div>
+
+  <section id="products" class="products"></section>
+
+  <footer>
+    © 2026 NovaMarket · Términos · Privacidad · Soporte
+  </footer>
+
+</div>
+
+<!-- Ventana de compra -->
+
+<div id="modal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal()">×</button>
+
+    <h2 id="productName">Comprar</h2>
+
+    <p id="productPrice"></p>
+
+    <p style="color:#9ba5ba; margin:15px 0; line-height:1.5;">
+      Pago por saldo en pesos cubanos (CUP). Al continuar se abrirá WhatsApp
+      para coordinar la compra.
+    </p>
+
+    <button class="confirm" onclick="purchase()">
+      Comprar por WhatsApp
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+const products = [
+
+  {
+    name: "Número virtual +1",
+    category: "numbers",
+    icon: "🇺🇸",
+    price: "250 CUP",
+    description:
+      "Número virtual para servicios compatibles."
+  },
+
+  {
+    name: "Número virtual +44",
+    category: "numbers",
+    icon: "🇬🇧",
+    price: "200 CUP",
+    description:
+      "Número virtual del Reino Unido."
+  },
+
+  {
+    name: "Número virtual +34",
+    category: "numbers",
+    icon: "🇪🇸",
+    price: "200 CUP",
+    description:
+      "Número virtual de España."
+  },
+
+  {
+    name: "SMS temporal",
+    category: "sms",
+    icon: "💬",
+    price: "100 CUP",
+    description:
+      "Recepción temporal de SMS."
+  },
+
+  {
+    name: "Paquete SMS x5",
+    category: "sms",
+    icon: "📩",
+    price: "300 CUP",
+    description:
+      "Cinco recepciones SMS."
+  },
+
+  {
+    name: "Servicio digital",
+    category: "digital",
+    icon: "✨",
+    price: "400 CUP",
+    description:
+      "Producto digital autorizado."
+  }
+
+];
+
+let selectedProduct = null;
+
+function renderProducts() {
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase();
+
+  const category =
+    document
+      .getElementById("category")
+      .value;
+
+  const container =
+    document.getElementById("products");
+
+  container.innerHTML = "";
+
+  products
+    .filter(product => {
+
+      const matchesSearch =
+        product.name
+          .toLowerCase()
+          .includes(search);
+
+      const matchesCategory =
+        category === "all" ||
+        product.category === category;
+
+      return matchesSearch && matchesCategory;
+
+    })
+    .forEach((product, index) => {
+
+      container.innerHTML += `
+
+        <article class="card">
+
+          <div class="icon">
+            ${product.icon}
+          </div>
+
+          <span class="tag">
+            ${product.category}
+          </span>
+
+          <h3>
+            ${product.name}
+          </h3>
+
+          <div class="description">
+            ${product.description}
+          </div>
+
+          <div class="price">
+            ${product.price}
+          </div>
+
+          <button
+            class="buy"
+            onclick="openModal(${index})"
+          >
+            Comprar
+          </button>
+
+        </article>
+
+      `;
+
+    });
+
+}
+
+function openModal(index) {
+
+  selectedProduct = products[index];
+
+  document.getElementById(
+    "productName"
+  ).textContent =
+    selectedProduct.name;
+
+  document.getElementById(
+    "productPrice"
+  ).textContent =
+    selectedProduct.price;
+
+  document
+    .getElementById("modal")
+    .classList.add("active");
+
+}
+
+function closeModal() {
+
+  document
+    .getElementById("modal")
+    .classList.remove("active");
+
+}
+
+function purchase() {
+
+  if (!selectedProduct) return;
+
+  const phone = "5350039261";
+
+  const message =
+    "Hola, quiero comprar:%0A%0A" +
+    "Producto: " + encodeURIComponent(selectedProduct.name) + "%0A" +
+    "Precio: " + encodeURIComponent(selectedProduct.price) + "%0A" +
+    "Forma de pago: saldo en CUP";
+
+  const whatsappUrl =
+    "https://wa.me/" + phone + "?text=" + message;
+
+  window.location.href = whatsappUrl;
+
+}
+
+document
+  .getElementById("search")
+  .addEventListener(
+    "input",
+    renderProducts
+  );
+
+document
+  .getElementById("category")
+  .addEventListener(
+    "change",
+    renderProducts
+  );
+
+renderProducts();
+
+</script>
+
+</body>
+</html>
